@@ -33,7 +33,7 @@ const foodImages = [
     alt: "Dessert platter",
   },
   {
-    url: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=400&fit=crop",
+    url: "https://media.istockphoto.com/id/691554478/photo/omelet-with-parsley-cherry-tomatoes-and-copyspace.jpg?s=1024x1024&w=is&k=20&c=gaeIdtdBLaWtlj7BtCdQRaGqGRViNQT1dy-nJqQ4PdA=",
     alt: "Breakfast plate",
   },
   {
