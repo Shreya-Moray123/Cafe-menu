@@ -66,7 +66,11 @@ function InteractiveDemo({ onNavigate }: { onNavigate?: (tabTitle: string) => vo
   )
 }
 
-export default function HeroSection({ onNavigate, onMenuClick }: { onNavigate?: (tabTitle: string) => void; onMenuClick?: () => void }) {
+export default function HeroSection({ onNavigate, onMenuClick, onReserveTableClick }: { 
+  onNavigate?: (tabTitle: string) => void; 
+  onMenuClick?: () => void; 
+  onReserveTableClick?: () => void; 
+}) {
   const [scope, animate] = useAnimate()
 
   useEffect(() => {
@@ -104,6 +108,7 @@ export default function HeroSection({ onNavigate, onMenuClick }: { onNavigate?: 
               variant="outline"
               size="lg"
               className="border-amber-600 text-amber-600 hover:bg-amber-50 px-8 bg-transparent"
+              onClick={onReserveTableClick}
             >
               Reserve Table
             </Button>

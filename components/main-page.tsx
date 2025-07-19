@@ -6,6 +6,7 @@ import OurStorySection from "./our-story-section"
 import CafeWhatWeDoSection from "./cafe-what-we-do-section"
 import MenuSection from "./menu-section"
 import YourOrders from "./your-orders"
+import ReserveTablePage from "./reserve-table"
 
 interface CartItem {
   id: string
@@ -18,7 +19,7 @@ interface CartItem {
 }
 
 export default function MainPageComponent() {
-  const [currentView, setCurrentView] = useState<"hero" | "story" | "services" | "menu" | "orders">("hero")
+  const [currentView, setCurrentView] = useState<"hero" | "story" | "services" | "menu" | "orders" | "reservation">("hero")
   const [cartItems, setCartItems] = useState<CartItem[]>([])
 
   console.log("MainPageComponent rendered with currentView:", currentView)
@@ -34,6 +35,10 @@ export default function MainPageComponent() {
 
   const handleMenuClick = () => {
     setCurrentView("menu")
+  }
+
+  const handleReserveTableClick = () => {
+    setCurrentView("reservation")
   }
 
   const handleViewOrdersClick = () => {
@@ -74,7 +79,7 @@ export default function MainPageComponent() {
 
   return (
     <div className="min-h-screen">
-      {currentView === "hero" && <HeroSection onNavigate={handleNavigate} onMenuClick={handleMenuClick} />}
+      {currentView === "hero" && <HeroSection onNavigate={handleNavigate} onMenuClick={handleMenuClick} onReserveTableClick={handleReserveTableClick} />}
       {currentView === "story" && (
         <div>
           <button
@@ -106,6 +111,17 @@ export default function MainPageComponent() {
             ← Back to Home
           </button>
           <MenuSection onViewOrdersClick={handleViewOrdersClick} onAddToCart={handleAddToCart} />
+        </div>
+      )}
+      {currentView === "reservation" && (
+        <div>
+          <button
+            onClick={handleBackToHero}
+            className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-all duration-300"
+          >
+            ← Back to Home
+          </button>
+          <ReserveTablePage />
         </div>
       )}
       {currentView === "orders" && (
