@@ -65,13 +65,13 @@ export function ExpandableTabs({ tabs, onChange, onNavigate, className }: Expand
             onClick={() => handleTabClick(index, item)}
             className={cn(
               "relative flex items-center gap-2 px-3 py-2 rounded-lg transition-colors",
-              "hover:bg-accent hover:text-accent-foreground",
+              "hover:bg-accent hover:text-accent-foreground text-gray-700",
               isActive && "bg-primary text-primary-foreground"
             )}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Icon size={16} />
+            <Icon size={16} className={cn("text-gray-700", isActive && "text-primary-foreground")} />
             <AnimatePresence mode="wait">
               {isActive && (
                 <motion.span
