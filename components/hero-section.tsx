@@ -18,10 +18,10 @@ const foodImages = [
     url: "https://media.istockphoto.com/id/2148933061/photo/selective-focus-samosa-spiced-potato-filled-pastry-crispy-savory-popular-indian-snack-with.jpg?s=1024x1024&w=is&k=20&c=braE0GOBhCSickLvX4EGK2Sy2z0Wu1TDVilPRAjWK3M=",
     alt: "Gourmet pasta dish",
   },
-  {
-    url: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400&h=400&fit=crop",
-    alt: "Juicy burger",
-  },
+  // {
+  //   url: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400&h=400&fit=crop",
+  //   alt: "Juicy burger",
+  // },
   {
     url: "https://media.istockphoto.com/id/857927726/photo/pasta-with-meat-tomato-sauce-and-vegetables.jpg?s=1024x1024&w=is&k=20&c=k5KvL4jlZd6Gm5ywUV1b3sH8E2oMgFKRYKTHUgp7yM4=",
     alt: "Grilled steak",
@@ -145,14 +145,14 @@ export default function HeroSection({ onMenuClick, onReserveTableClick }: {
             />
           </FloatingElement>
 
-          <FloatingElement depth={1} className="bottom-[10%] left-[45%]">
+          {/* <FloatingElement depth={1} className="bottom-[10%] left-[45%]">
             <motion.img
               initial={{ opacity: 0 }}
               src={foodImages[7].url}
               alt={foodImages[7].alt}
               className="w-20 h-20 md:w-28 md:h-28 object-cover rounded-lg shadow-lg hover:scale-105 duration-200 cursor-pointer transition-transform"
             />
-          </FloatingElement>
+          </FloatingElement> */}
         </Floating>
       </div>
     </section>
