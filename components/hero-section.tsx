@@ -4,8 +4,6 @@ import { useEffect } from "react"
 import { motion, stagger, useAnimate } from "motion/react"
 import Floating, { FloatingElement } from "@/components/ui/parallax-floating"
 import { Button } from "@/components/ui/button"
-import { ExpandableTabs } from "@/components/ui/expandable-tabs"
-import { Search, Heart, User, Home } from 'lucide-react'
 
 const foodImages = [
   {
@@ -42,32 +40,7 @@ const foodImages = [
   },
 ]
 
-function InteractiveDemo({ onNavigate }: { onNavigate?: (tabTitle: string) => void }) {
-  const tabs = [
-    { title: "Home", icon: Home },
-    { title: "Search", icon: Search },
-    { title: "Favorites", icon: Heart },
-    { type: "separator" as const },
-    { title: "Profile", icon: User },
-  ]
-
-  return (
-    <div className="space-y-4">
-      <ExpandableTabs
-        tabs={tabs}
-        onChange={(index) => {
-          if (index !== null) {
-            console.log(`Selected tab at index: ${index}`)
-          }
-        }}
-        onNavigate={onNavigate}
-      />
-    </div>
-  )
-}
-
-export default function HeroSection({ onNavigate, onMenuClick, onReserveTableClick }: { 
-  onNavigate?: (tabTitle: string) => void; 
+export default function HeroSection({ onMenuClick, onReserveTableClick }: { 
   onMenuClick?: () => void; 
   onReserveTableClick?: () => void; 
 }) {
@@ -79,13 +52,6 @@ export default function HeroSection({ onNavigate, onMenuClick, onReserveTableCli
 
   return (
     <section className="relative w-full h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 overflow-hidden">
-      {/* Header with ExpandableTabs */}
-      <header className="absolute top-0 left-0 right-0 z-50 p-6">
-        <div className="flex justify-center">
-          <InteractiveDemo onNavigate={onNavigate} />
-        </div>
-      </header>
-
       <div className="flex w-full h-full justify-center items-center overflow-hidden" ref={scope}>
         <motion.div
           className="z-50 text-center space-y-6 items-center flex flex-col max-w-2xl px-4"

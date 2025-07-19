@@ -7,6 +7,7 @@ import CafeWhatWeDoSection from "./cafe-what-we-do-section"
 import MenuSection from "./menu-section"
 import YourOrders from "./your-orders"
 import ReserveTablePage from "./reserve-table"
+import { HorizontalNavBar } from "./horizontal-nav-bar"
 
 interface CartItem {
   id: string
@@ -25,11 +26,15 @@ export default function MainPageComponent() {
   console.log("MainPageComponent rendered with currentView:", currentView)
   console.log("CartItems count:", cartItems.length)
 
-  const handleNavigate = (tabTitle: string) => {
-    if (tabTitle === "Profile") {
+  const handleNavigate = (tabId: string) => {
+    if (tabId === "home") {
+      setCurrentView("hero")
+    } else if (tabId === "profile") {
       setCurrentView("story")
-    } else if (tabTitle === "Favorites") {
+    } else if (tabId === "favorite") {
       setCurrentView("services")
+    } else if (tabId === "search") {
+      setCurrentView("menu")
     }
   }
 
@@ -79,62 +84,75 @@ export default function MainPageComponent() {
 
   return (
     <div className="min-h-screen">
-      {currentView === "hero" && <HeroSection onNavigate={handleNavigate} onMenuClick={handleMenuClick} onReserveTableClick={handleReserveTableClick} />}
-      {currentView === "story" && (
-        <div>
-          <button
-            onClick={handleBackToHero}
-            className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-all duration-300"
-          >
-            ← Back to Home
-          </button>
-          <OurStorySection />
-        </div>
-      )}
-      {currentView === "services" && (
-        <div>
-          <button
-            onClick={handleBackToHero}
-            className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-all duration-300"
-          >
-            ← Back to Home
-          </button>
-          <CafeWhatWeDoSection />
-        </div>
-      )}
-      {currentView === "menu" && (
-        <div>
-          <button
-            onClick={handleBackToHero}
-            className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-all duration-300"
-          >
-            ← Back to Home
-          </button>
-          <MenuSection onViewOrdersClick={handleViewOrdersClick} onAddToCart={handleAddToCart} />
-        </div>
-      )}
-      {currentView === "reservation" && (
-        <div>
-          <button
-            onClick={handleBackToHero}
-            className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-all duration-300"
-          >
-            ← Back to Home
-          </button>
-          <ReserveTablePage />
-        </div>
-      )}
-      {currentView === "orders" && (
-        <div>
-          <button
-            onClick={handleBackToHero}
-            className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white hover:bg-white/30 transition-all duration-300"
-          >
-            ← Back to Home
-          </button>
-          <YourOrders orders={cartItems} />
-        </div>
-      )}
+      {/* Fixed horizontal navigation at top */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <HorizontalNavBar onNavigate={handleNavigate} activeTab={
+          currentView === "hero" ? "home" :
+          currentView === "story" ? "profile" :
+          currentView === "services" ? "favorite" :
+          currentView === "menu" ? "search" : "home"
+        } />
+      </div>
+      
+      {/* Main content with proper spacing for fixed nav */}
+      <div className="pt-20">
+        {currentView === "hero" && <HeroSection onMenuClick={handleMenuClick} onReserveTableClick={handleReserveTableClick} />}
+        {currentView === "story" && (
+          <div>
+            <button
+              onClick={() => setCurrentView("hero")}
+              className="absolute top-24 left-6 z-40 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-gray-800 hover:bg-white/30 transition-all duration-300"
+            >
+              ← Back to Home
+            </button>
+            <OurStorySection />
+          </div>
+        )}
+        {currentView === "services" && (
+          <div>
+            <button
+              onClick={() => setCurrentView("hero")}
+              className="absolute top-24 left-6 z-40 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-gray-800 hover:bg-white/30 transition-all duration-300"
+            >
+              ← Back to Home
+            </button>
+            <CafeWhatWeDoSection />
+          </div>
+        )}
+        {currentView === "menu" && (
+          <div>
+            <button
+              onClick={() => setCurrentView("hero")}
+              className="absolute top-24 left-6 z-40 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-gray-800 hover:bg-white/30 transition-all duration-300"
+            >
+              ← Back to Home
+            </button>
+            <MenuSection onViewOrdersClick={handleViewOrdersClick} onAddToCart={handleAddToCart} />
+          </div>
+        )}
+        {currentView === "reservation" && (
+          <div>
+            <button
+              onClick={() => setCurrentView("hero")}
+              className="absolute top-24 left-6 z-40 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-gray-800 hover:bg-white/30 transition-all duration-300"
+            >
+              ← Back to Home
+            </button>
+            <ReserveTablePage />
+          </div>
+        )}
+        {currentView === "orders" && (
+          <div>
+            <button
+              onClick={() => setCurrentView("hero")}
+              className="absolute top-24 left-6 z-40 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-gray-800 hover:bg-white/30 transition-all duration-300"
+            >
+              ← Back to Home
+            </button>
+            <YourOrders orders={cartItems} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
