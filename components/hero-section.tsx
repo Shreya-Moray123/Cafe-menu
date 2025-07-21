@@ -27,7 +27,7 @@ const foodImages = [
     alt: "Grilled steak",
   },
   {
-    url: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=500&fit=crop",
+    url: "https://media.istockphoto.com/id/510015094/photo/avocado-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=t1Ot8g5gMeNIYhtA-BYbS8DYoveBYfOm-FTgr1GD90c=",
     alt: "Dessert platter",
   },
   {

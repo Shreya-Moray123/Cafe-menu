@@ -148,7 +148,7 @@ function AnimatedGradientText({
 }
 
 // Main Our Story Component
-const OurStorySection = () => {
+const OurStorySection = ({ onExploreMenu }: { onExploreMenu?: () => void }) => {
   const { scrollY } = useScroll()
 
   const backgroundY = useTransform(scrollY, [0, 500], [0, 150])
@@ -288,6 +288,7 @@ FILLING FOOD AND HER HEARTFELT
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={onExploreMenu}
             className="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
           >
             Explore Menu

@@ -46,6 +46,10 @@ export default function MainPageComponent() {
     setCurrentView("reservation")
   }
 
+  const handleExploreMenuClick = () => {
+    setCurrentView("menu")
+  }
+
   const handleViewOrdersClick = () => {
     console.log("handleViewOrdersClick called!")
     console.log("Current view before:", currentView)
@@ -105,7 +109,7 @@ export default function MainPageComponent() {
             >
               ← Back to Home
             </button>
-            <OurStorySection />
+            <OurStorySection onExploreMenu={handleExploreMenuClick} />
           </div>
         )}
         {currentView === "services" && (
