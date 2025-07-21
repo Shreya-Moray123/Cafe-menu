@@ -23,6 +23,8 @@ interface YourOrdersProps {
   restaurantName?: string
   estimatedTime?: string
   deliveryAddress?: string
+  onContinueShopping?: () => void
+  onProceedToCheckout?: () => void
 }
 
 const YourOrders: React.FC<YourOrdersProps> = ({
@@ -30,6 +32,8 @@ const YourOrders: React.FC<YourOrdersProps> = ({
   restaurantName = "Sonna's Cafe",
   estimatedTime = "25-35 min",
   deliveryAddress = "123 Main Street, Downtown",
+  onContinueShopping,
+  onProceedToCheckout,
 }) => {
   const [orderItems, setOrderItems] = React.useState<OrderItem[]>(orders)
 
@@ -50,7 +54,11 @@ const YourOrders: React.FC<YourOrdersProps> = ({
     setOrderItems((prev) => prev.filter((item) => item.id !== id))
   }
 
-  const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const subtotal = orderItems.reduce((sum, item) => {
+    // Parse price properly, removing currency symbol if present
+    const price = typeof item.price === 'number' ? item.price : parseFloat(String(item.price).replace(/[^\d.-]/g, '')) || 0
+    return sum + (price * item.quantity)
+  }, 0)
   const deliveryFee = 3.99
   const tax = subtotal * 0.08
   const total = subtotal + deliveryFee + tax
@@ -173,7 +181,7 @@ const YourOrders: React.FC<YourOrdersProps> = ({
                                 </Button>
                               </div>
                               <span className="font-semibold text-foreground">
-                                ${(item.price * item.quantity).toFixed(2)}
+                                ₹{((typeof item.price === 'number' ? item.price : parseFloat(String(item.price).replace(/[^\d.-]/g, '')) || 0) * item.quantity).toFixed(2)}
                               </span>
                             </div>
                           </div>
@@ -194,28 +202,28 @@ const YourOrders: React.FC<YourOrdersProps> = ({
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Subtotal</span>
-                      <span className="text-foreground">${subtotal.toFixed(2)}</span>
+                      <span className="text-foreground">₹{subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Delivery Fee</span>
-                      <span className="text-foreground">${deliveryFee.toFixed(2)}</span>
+                      <span className="text-foreground">₹{deliveryFee.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Tax</span>
-                      <span className="text-foreground">${tax.toFixed(2)}</span>
+                      <span className="text-foreground">₹{tax.toFixed(2)}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-semibold text-lg">
                       <span className="text-foreground">Total</span>
-                      <span className="text-foreground">${total.toFixed(2)}</span>
+                      <span className="text-foreground">₹{total.toFixed(2)}</span>
                     </div>
                   </div>
 
-                  <Button className="w-full mb-4" size="lg" disabled={orderItems.length === 0}>
+                  <Button className="w-full mb-4" size="lg" disabled={orderItems.length === 0} onClick={onProceedToCheckout}>
                     Proceed to Checkout
                   </Button>
 
-                  <Button variant="outline" className="w-full bg-transparent">
+                  <Button variant="outline" className="w-full bg-transparent" onClick={onContinueShopping}>
                     Continue Shopping
                   </Button>
                 </div>

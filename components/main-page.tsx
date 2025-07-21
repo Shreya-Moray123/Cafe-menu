@@ -8,6 +8,7 @@ import MenuSection from "./menu-section"
 import YourOrders from "./your-orders"
 import ReserveTablePage from "./reserve-table"
 import { HorizontalNavBar } from "./horizontal-nav-bar"
+import { FoodDeliveryCheckout } from "./food-delivery-checkout"
 
 interface CartItem {
   id: string
@@ -20,7 +21,7 @@ interface CartItem {
 }
 
 export default function MainPageComponent() {
-  const [currentView, setCurrentView] = useState<"hero" | "story" | "services" | "menu" | "orders" | "reservation">("hero")
+  const [currentView, setCurrentView] = useState<"hero" | "story" | "services" | "menu" | "orders" | "reservation" | "checkout">("hero")
   const [cartItems, setCartItems] = useState<CartItem[]>([])
 
   console.log("MainPageComponent rendered with currentView:", currentView)
@@ -50,6 +51,22 @@ export default function MainPageComponent() {
     setCurrentView("menu")
   }
 
+  const handleContinueShoppingClick = () => {
+    setCurrentView("menu")
+  }
+
+  const handleProceedToCheckout = () => {
+    setCurrentView("checkout")
+  }
+
+  const handleBackToOrders = () => {
+    setCurrentView("orders")
+  }
+
+  const handleBackToHome = () => {
+    setCurrentView("hero")
+  }
+
   const handleViewOrdersClick = () => {
     console.log("handleViewOrdersClick called!")
     console.log("Current view before:", currentView)
@@ -58,7 +75,7 @@ export default function MainPageComponent() {
   }
 
   const handleAddToCart = (item: { name: string; description: string; price: string; image: string; category: string }) => {
-    const numericPrice = parseFloat(item.price.replace('$', ''))
+    const numericPrice = parseFloat(item.price.replace(/[^\d.-]/g, '')) || 0
     const newItem: CartItem = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       name: item.name,
@@ -153,7 +170,27 @@ export default function MainPageComponent() {
             >
               ← Back to Home
             </button>
-            <YourOrders orders={cartItems} />
+            <YourOrders 
+              orders={cartItems} 
+              onContinueShopping={handleContinueShoppingClick} 
+              onProceedToCheckout={handleProceedToCheckout}
+            />
+          </div>
+        )}
+        {currentView === "checkout" && (
+          <div>
+            <FoodDeliveryCheckout 
+              cartItems={cartItems.map(item => ({
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                quantity: item.quantity,
+                image: item.image
+              }))} 
+              onBackToOrders={handleBackToOrders}
+              onBackToHome={handleBackToHome}
+            />
           </div>
         )}
       </div>
