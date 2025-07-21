@@ -109,7 +109,7 @@ export default function MainPageComponent() {
             >
               ← Back to Home
             </button>
-            <OurStorySection onExploreMenu={handleExploreMenuClick} />
+            <OurStorySection onExploreMenu={handleExploreMenuClick} onVisitUs={handleReserveTableClick} />
           </div>
         )}
         {currentView === "services" && (

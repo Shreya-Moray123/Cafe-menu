@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { PlasticButton } from "@/components/ui/plastic-button"
+import { useToast } from "@/hooks/use-toast"
 
 const menuCategories = [
   {
@@ -115,6 +116,8 @@ export default function MenuSection({
   onViewOrdersClick?: () => void
   onAddToCart?: (item: { name: string; description: string; price: string; image: string; category: string }) => void
 }) {
+  const { toast } = useToast()
+  
   console.log("MenuSection rendered with onViewOrdersClick:", onViewOrdersClick)
   console.log("onViewOrdersClick type:", typeof onViewOrdersClick)
   
@@ -127,6 +130,13 @@ export default function MenuSection({
         price: item.price,
         image: item.image,
         category: category
+      })
+      // Show success toast
+      toast({
+        title: "Added to Cart!",
+        description: `${item.name} has been added to your cart.`,
+        duration: 3000,
+        className: "bg-gradient-to-r from-purple-300 to-purple-400 text-white border-0 shadow-lg",
       })
     }
   }

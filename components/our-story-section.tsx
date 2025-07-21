@@ -148,7 +148,7 @@ function AnimatedGradientText({
 }
 
 // Main Our Story Component
-const OurStorySection = ({ onExploreMenu }: { onExploreMenu?: () => void }) => {
+const OurStorySection = ({ onExploreMenu, onVisitUs }: { onExploreMenu?: () => void; onVisitUs?: () => void }) => {
   const { scrollY } = useScroll()
 
   const backgroundY = useTransform(scrollY, [0, 500], [0, 150])
@@ -298,6 +298,7 @@ FILLING FOOD AND HER HEARTFELT
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={onVisitUs}
             className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300"
           >
             Visit Us Today
