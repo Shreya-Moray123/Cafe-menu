@@ -169,7 +169,7 @@ export default function MenuSection({
           <div className="flex justify-center items-center relative mb-4">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800">Our Menu</h2>
             <div className="absolute right-0 top-0">
-              <div className="scale-150 transform origin-center">
+              <div className="scale-110 transform origin-center">
                 <PlasticButton text="View Items" onClick={onViewOrdersClick} />
               </div>
             </div>
