@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
+import { X, Mail, ChevronDown, Flag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -13,20 +13,29 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginModalProps) {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [countryCode, setCountryCode] = useState("+91")
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Login form submitted:", formData)
-    // Handle login logic here
+  const handleSendOTP = async () => {
+    setIsLoading(true)
+    
+    // Simulate OTP sending process
+    setTimeout(() => {
+      setIsLoading(false)
+      console.log("OTP sent to:", countryCode + phoneNumber)
+      onClose()
+    }, 1000)
+  }
+
+  const handleContinueWithEmail = () => {
+    console.log("Continue with email clicked")
+    // This could switch to email login form or navigate to email login
   }
 
   const handleGoogleLogin = () => {
-    console.log("Login with Google clicked")
-    // Handle Google login logic here
+    console.log("Google login attempted")
+    onClose()
   }
 
   return (
@@ -60,61 +69,70 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginModalProp
 
             {/* Header */}
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Log in</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Login</h2>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email Input */}
-              <div>
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full h-12 px-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  required
-                />
-              </div>
+            {/* Phone Input */}
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <div className="relative">
+                  <div className="flex rounded-lg border-2 border-cyan-400 overflow-hidden">
+                    {/* Country Code Selector */}
+                    <div className="flex items-center px-3 bg-gray-50 border-r border-cyan-400">
+                      <Flag className="w-4 h-4 text-orange-500 mr-2" />
+                      <span className="text-sm font-medium text-gray-700">{countryCode}</span>
+                      <ChevronDown className="w-4 h-4 text-gray-500 ml-1" />
+                    </div>
+                    
+                    {/* Phone Number Input */}
+                    <Input
+                      type="tel"
+                      placeholder="Phone"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="flex-1 border-0 h-12 focus-visible:ring-0 text-base"
+                    />
+                  </div>
+                </div>
 
-              {/* Password Input */}
-              <div>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                  className="w-full h-12 px-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  required
-                />
+                <Button
+                  onClick={handleSendOTP}
+                  className="w-full h-12 bg-red-500 hover:bg-red-600 text-white font-medium text-base"
+                  disabled={isLoading || !phoneNumber.trim()}
+                >
+                  {isLoading ? "Sending..." : "Send One Time Password"}
+                </Button>
               </div>
-
-              {/* Login Button */}
-              <Button
-                type="submit"
-                className="w-full h-12 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors"
-              >
-                Log in
-              </Button>
 
               {/* Divider */}
-              <div className="relative">
+              <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300" />
+                  <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">or</span>
+                  <span className="bg-white px-4 text-gray-500">or</span>
                 </div>
               </div>
 
-              {/* Google Login Button */}
+              {/* Continue with Email */}
               <Button
                 type="button"
                 variant="outline"
-                onClick={handleGoogleLogin}
-                className="w-full h-12 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="w-full h-12 border-gray-300 hover:bg-gray-50 text-base"
+                onClick={handleContinueWithEmail}
               >
-                <div className="flex items-center justify-center space-x-2">
+                <Mail className="w-5 h-5 mr-3 text-red-500" />
+                <span className="text-gray-700 font-medium">Continue with Email</span>
+              </Button>
+
+              {/* Google Login */}
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full h-12 border-gray-300 hover:bg-gray-50 text-base"
+                onClick={handleGoogleLogin}
+              >
+                <div className="flex items-center justify-center gap-3">
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
                       fill="#4285F4"
@@ -136,17 +154,19 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginModalProp
                   <span className="text-gray-700 font-medium">Sign in with Google</span>
                 </div>
               </Button>
-            </form>
 
-            {/* Sign Up Link */}
-            <div className="mt-8 text-center">
-              <span className="text-gray-600">Don't have an account? </span>
-              <button
-                onClick={onSwitchToSignUp}
-                className="text-red-500 hover:text-red-600 font-medium"
-              >
-                Sign up
-              </button>
+              {/* Sign Up Link */}
+              <div className="mt-6 text-center">
+                <p className="text-sm text-gray-600">
+                  New to Sonna's Cafe?{" "}
+                  <button
+                    onClick={onSwitchToSignUp}
+                    className="text-red-500 hover:text-red-600 font-medium"
+                  >
+                    Create account
+                  </button>
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
