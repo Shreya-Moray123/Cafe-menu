@@ -111,10 +111,12 @@ const menuCategories = [
 
 export default function MenuSection({ 
   onViewOrdersClick, 
-  onAddToCart 
+  onAddToCart,
+  onBuyNow 
 }: { 
   onViewOrdersClick?: () => void
   onAddToCart?: (item: { name: string; description: string; price: string; image: string; category: string }) => void
+  onBuyNow?: (item: { name: string; description: string; price: string; image: string; category: string }) => void
 }) {
   const { toast } = useToast()
   
@@ -141,6 +143,19 @@ export default function MenuSection({
     }
   }
 
+  const handleBuyNow = (item: { name: string; description: string; price: string; image: string }, category: string) => {
+    console.log(`Buy now clicked for ${item.name}`)
+    if (onBuyNow) {
+      onBuyNow({
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        image: item.image,
+        category: category
+      })
+    }
+  }
+
   return (
     <section className="py-16 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
@@ -154,7 +169,9 @@ export default function MenuSection({
           <div className="flex justify-center items-center relative mb-4">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800">Our Menu</h2>
             <div className="absolute right-0 top-0">
-              <PlasticButton text="View Items" onClick={onViewOrdersClick} />
+              <div className="scale-150 transform origin-center">
+                <PlasticButton text="View Items" onClick={onViewOrdersClick} />
+              </div>
             </div>
           </div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -197,12 +214,20 @@ export default function MenuSection({
                       <CardHeader className="flex-1 flex flex-col">
                         <CardTitle className="text-xl text-gray-800">{item.name}</CardTitle>
                         <CardDescription className="text-gray-600 flex-1">{item.description}</CardDescription>
-                        <Button
-                          onClick={() => handleAddItem(item, category.title)}
-                          className="mt-4 bg-red-600 hover:bg-red-700 text-white font-medium"
-                        >
-                          Add Item
-                        </Button>
+                        <div className="mt-4 space-y-2">
+                          <Button
+                            onClick={() => handleAddItem(item, category.title)}
+                            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-medium rounded-full py-3"
+                          >
+                            Add to Cart
+                          </Button>
+                          <Button
+                            onClick={() => handleBuyNow(item, category.title)}
+                            className="w-full bg-red-600 hover:bg-red-700 text-white font-medium rounded-full py-3"
+                          >
+                            Buy Now
+                          </Button>
+                        </div>
                       </CardHeader>
                     </Card>
                   </motion.div>

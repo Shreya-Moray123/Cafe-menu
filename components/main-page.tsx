@@ -99,6 +99,13 @@ export default function MainPageComponent() {
     })
   }
 
+  const handleBuyNow = (item: { name: string; description: string; price: string; image: string; category: string }) => {
+    // Add item to cart first
+    handleAddToCart(item)
+    // Navigate directly to checkout
+    setCurrentView("checkout")
+  }
+
   const handleBackToHero = () => {
     setCurrentView("hero")
   }
@@ -148,7 +155,7 @@ export default function MainPageComponent() {
             >
               ← Back to Home
             </button>
-            <MenuSection onViewOrdersClick={handleViewOrdersClick} onAddToCart={handleAddToCart} />
+            <MenuSection onViewOrdersClick={handleViewOrdersClick} onAddToCart={handleAddToCart} onBuyNow={handleBuyNow} />
           </div>
         )}
         {currentView === "reservation" && (
